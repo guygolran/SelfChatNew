@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:screenOrientation="portrait"
+    tools:context=".MainActivity">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recyclerView666"
+        android:layout_width="match_parent"
+        android:layout_height="420dp"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+    </android.support.v7.widget.RecyclerView>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center_horizontal|bottom"
+        android:layout_alignParentEnd="true"
+        >
+        <EditText
+            android:id="@+id/editText"
+            android:layout_width="265dp"
+            android:layout_height="79dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:inputType="text"
+            android:background="@drawable/back"/>
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="79dp"
+            android:layout_alignParentBottom="true"
+            android:layout_toEndOf="@+id/editText"
+            android:text="Send" />
+    </RelativeLayout>
+
+
+</android.support.constraint.ConstraintLayout>
