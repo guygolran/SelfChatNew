@@ -1,20 +1,27 @@
 package com.example.guy.selfchat;
 
+import android.app.Activity;
+import android.app.FragmentManager;
 import android.content.Context;
+import android.support.v4.app.FragmentActivity;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
+import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
 public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHolder> {
     private ArrayList<Message> mDataSource;
+    public android.support.v4.app.FragmentManager mFragmentManager;
 
-    public MessageAdapter(ArrayList<Message> items) {
+    public MessageAdapter(ArrayList<Message> items, android.support.v4.app.FragmentManager fragmentManager) {
         this.mDataSource = items;
+        this.mFragmentManager = fragmentManager;
     }
 
     @Override
@@ -26,19 +33,16 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         this.mDataSource = newDataSource;
     }
 
-    //    @Override
-//    public int getItemId(int pos) {
-//        return pos;
-//    }
-
     public static class ViewHolder extends RecyclerView.ViewHolder {
         public TextView author, msg, timeStamp;
+        public View view;
 
         public ViewHolder(View view) {
             super(view);
             author = view.findViewById(R.id.li_msg_author);
             msg = view.findViewById(R.id.li_msg_content);
             timeStamp = view.findViewById(R.id.li_msg_timestamp);
+            this.view = view;
         }
     }
 
@@ -56,26 +60,14 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.ViewHold
         holder.msg.setText(message.getMsg());
         holder.author.setText(message.getAuthor());
         holder.timeStamp.setText(message.getTimeStamp());
-    }
 
-//    @Override
-//    public View getView(int pos, View convertView, ViewGroup parent) {
-//        ViewHolder holder;
-//
-//        if (convertView == null) {
-//            convertView = mInflater.inflate(R.layout.li_msg, parent, false);
-//            holder = new ViewHolder();
-//            holder.author = convertView.findViewById(R.id.li_msg_author);
-//            holder.msg = convertView.findViewById(R.id.li_msg_content);
-//            convertView.setTag(holder);
-//        } else {
-//            holder = (ViewHolder) convertView.getTag();
-//        }
-//
-//        Message message = getItem(pos);
-//
-//        holder.author.setText(message.getAuthor());
-//        holder.msg.setText(message.getMsg());
-//        return convertView;
-//    }
+        holder.view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                MessageFragment messageFragment = MessageFragment.newInstance(message.getAuthor(), message.getMsg(), message.getTimeStamp(), pos);
+                mFragmentManager.beginTransaction().addToBackStack(null).replace(R.id.main_activity, messageFragment).commit();
+                return true;
+            }
+        });
+    }
 }

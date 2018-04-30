@@ -7,10 +7,11 @@ import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.support.v4.app.Fragment;
 
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements MessageFragmentListener {
     private RecyclerView mRecyclerView;
     private MessageAdapter mAdapter;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -23,7 +24,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mDataSource = new ArrayList<>();
-//        mDataSource = initData();
         button = (Button)findViewById(R.id.button);
         btnTxt = (TextView)findViewById(R.id.editText);
         initRecyclerView();
@@ -38,28 +38,18 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
+    @Override
+    public void onMessageClick(final int pos) {
+        mDataSource.remove(mDataSource.get(pos));
+        mAdapter.notifyDataSetChanged();
+        MainActivity.super.onBackPressed();
+    }
+
     private void initRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.recyclerView666);
         mLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLayoutManager);
-        mAdapter = new MessageAdapter(mDataSource);
+        mAdapter = new MessageAdapter(mDataSource, getSupportFragmentManager());
         mRecyclerView.setAdapter(mAdapter);
-    }
-
-    private static ArrayList<Message> initData() {
-        ArrayList<Message> messages = new ArrayList<>();
-        messages.add(new Message("Arthur", "Hey DW"));
-        messages.add(new Message("DW", "STFU"));
-        messages.add(new Message("Buster", "WAT"));
-        messages.add(new Message("Binky", "Banana"));
-        messages.add(new Message("Yo Yo Wat", "YO YO MA"));
-        messages.add(new Message("Binky (band)", "Binky rules"));
-        messages.add(new Message("Reference", "You running out of us"));
-        messages.add(new Message("Arthur", "Bye"));
-        messages.add(new Message("DW", "Bye"));
-        messages.add(new Message("Buster", "Bye"));
-        messages.add(new Message("Binky", "Bye"));
-        messages.add(new Message("Reference", "Bye"));
-        return messages;
     }
 }
